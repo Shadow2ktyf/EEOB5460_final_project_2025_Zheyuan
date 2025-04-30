@@ -1,6 +1,4 @@
-# EEOB5460 Final Project – Phylogenetic Analysis Workflow
-
-This document outlines the full workflow for replicating the phylogenetic analysis of SARS-CoV-2 and related coronaviruses using UNIX-based tools on the `nova` server.
+# EEOB5460 Final Project – Zheyuan's Workflow
 
 ## Project Directory Setup
 
@@ -22,14 +20,14 @@ This document outlines the full workflow for replicating the phylogenetic analys
 Use `curl` to retrieve publicly available coronavirus genomes from NCBI:
 
 ```bash
-# Wuhan-Hu-1 (SARS-CoV-2 reference genome)
-curl -L -o fasta_files/Wuhan-Hu-1.fasta "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=MN908947.3&rettype=fasta&retmode=text"
+# WHU_1 (SARS-CoV-2 reference genome)
+curl -L -o fasta_files/WHU_1.fasta "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=MN908947.3&rettype=fasta&retmode=text"
 
 # SARS-CoV (2003)
 curl -L -o fasta_files/SARS-CoV.fasta "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=AY278741.1&rettype=fasta&retmode=text"
 
 # Bat SARS-like CoV (ZC45 strain)
-curl -L -o fasta_files/Bat-CoVZC45.fasta "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=MG772933.1&rettype=fasta&retmode=text"
+curl -L -o fasta_files/Bat-SL-CoVZC45.fasta "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=MG772933.1&rettype=fasta&retmode=text"
 
 # MERS-CoV (EMC/2012)
 curl -L -o fasta_files/MERS-CoV.fasta "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=JX869059.2&rettype=fasta&retmode=text"
@@ -96,36 +94,3 @@ Use the Interactive Tree Of Life (iTOL) platform:
 2. Upload `tree_files/all_sequences_aligned.fasta.treefile`
 3. Customize branch styles, colors, and bootstrap labels
 4. Export final figures as `.png`, `.pdf`, or `.svg`
-
-## GitHub Setup and Push Instructions
-
-If pushing to GitHub using HTTPS, generate a Personal Access Token (PAT) from:
-
-```
-GitHub > Settings > Developer Settings > Personal Access Tokens
-```
-
-To configure Git to remember your token:
-
-```bash
-git config --global credential.helper store
-```
-
-Then push to your GitHub repository:
-
-```bash
-git remote set-url origin https://github.com/YourUsername/YourRepository.git
-git push origin main
-```
-
-When prompted, enter your GitHub username and paste the token instead of a password.
-
-## Summary
-
-- Reference genomes were downloaded using `curl`
-- MAFFT was used for multiple sequence alignment
-- IQ-TREE was used to infer a maximum likelihood phylogenetic tree with support values
-- Outputs were organized into a tree-specific directory
-- iTOL was used to visualize and export the phylogenetic tree
-
-_Last updated: April 30, 2025_
