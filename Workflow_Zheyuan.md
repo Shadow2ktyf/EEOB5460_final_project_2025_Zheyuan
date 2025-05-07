@@ -1,15 +1,6 @@
-# EEOB5460 Final Project – Zheyuan's Workflow
+## Phylogenetic Tree Workflow
 
-## Project Directory Setup
-
-1. Create a working project folder and navigate into it:
-
-   ```bash
-   mkdir EEOB5460_final_project_2025_Zheyuan
-   cd EEOB5460_final_project_2025_Zheyuan
-   ```
-
-2. Create a folder to store downloaded FASTA sequences:
+Create a folder to store downloaded FASTA sequences:
 
    ```bash
    mkdir fasta_files
