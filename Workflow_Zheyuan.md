@@ -20,17 +20,15 @@
 Use `curl` to retrieve publicly available coronavirus genomes from NCBI:
 
 ```bash
-# WHU_1 (SARS-CoV-2 reference genome)
-curl -L -o fasta_files/WHU_1.fasta "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=MN908947.3&rettype=fasta&retmode=text"
+curl -L -o fasta_files/WHU01.fasta "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=MN988668.1&rettype=fasta&retmode=text"
 
-# SARS-CoV (2003)
-curl -L -o fasta_files/SARS-CoV.fasta "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=AY278741.1&rettype=fasta&retmode=text"
+curl -L -o fasta_files/WHU02.fasta "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=MN988669.1&rettype=fasta&retmode=text"
 
-# Bat SARS-like CoV (ZC45 strain)
+curl -L -o fasta_files/CoV-2c-EM2012.fasta "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=JX869059.2&rettype=fasta&retmode=text"
+
 curl -L -o fasta_files/Bat-SL-CoVZC45.fasta "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=MG772933.1&rettype=fasta&retmode=text"
 
-# MERS-CoV (EMC/2012)
-curl -L -o fasta_files/MERS-CoV.fasta "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=JX869059.2&rettype=fasta&retmode=text"
+curl -L -o fasta_files/SARS-CoV.fasta "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=AY278741.1&rettype=fasta&retmode=text"
 ```
 
 ## Multiple Sequence Alignment (MSA) with MAFFT
@@ -88,9 +86,31 @@ mv all_sequences_aligned.fasta.treefile all_sequences_aligned.fasta.iqtree all_s
 
 ## Visualize the Phylogenetic Tree
 
-Use the Interactive Tree Of Life (iTOL) platform:
+Turn your environment to Jupyter Notebook:
 
-1. Visit https://itol.embl.de
-2. Upload `tree_files/all_sequences_aligned.fasta.treefile`
-3. Customize branch styles, colors, and bootstrap labels
-4. Export final figures as `.png`, `.pdf`, or `.svg`
+```python
+from Bio import Phylo
+import matplotlib.pyplot as plt
+
+# 定义一个映射字典：GenBank ID → 更友好的物种标签
+label_map = {
+    "MN908947.3": "SARS-CoV-2 (Wuhan-Hu-1)",
+    "AY278741.1": "SARS-CoV (2003)",
+    "MG772933.1": "Bat-CoV ZC45",
+    "JX869059.2": "MERS-CoV"
+}
+
+# 读取树
+tree = Phylo.read("all_sequences_aligned.fasta.treefile", "newick")
+
+# 替换标签
+for clade in tree.find_clades():
+    if clade.name in label_map:
+        clade.name = label_map[clade.name]
+
+# 绘图
+fig = plt.figure(figsize=(8, 6))
+Phylo.draw(tree, do_show=False)
+plt.savefig("tree_labeled.png", dpi=300)
+```
+
