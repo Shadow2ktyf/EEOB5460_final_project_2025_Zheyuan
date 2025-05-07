@@ -92,23 +92,20 @@ Turn your environment to Jupyter Notebook:
 from Bio import Phylo
 import matplotlib.pyplot as plt
 
-# 定义一个映射字典：GenBank ID → 更友好的物种标签
 label_map = {
-    "MN908947.3": "SARS-CoV-2 (Wuhan-Hu-1)",
-    "AY278741.1": "SARS-CoV (2003)",
-    "MG772933.1": "Bat-CoV ZC45",
-    "JX869059.2": "MERS-CoV"
+    "AY278741.1": "SARS-CoV",
+    "MG772933.1": "Bat-SL-CoVZC45",
+    "JX869059.2": " CoV-2c-EM2012",
+    "MN988668.1": "WUH01",
+    "MN988669.1": "WUH02"
 }
 
-# 读取树
 tree = Phylo.read("all_sequences_aligned.fasta.treefile", "newick")
 
-# 替换标签
 for clade in tree.find_clades():
     if clade.name in label_map:
         clade.name = label_map[clade.name]
 
-# 绘图
 fig = plt.figure(figsize=(8, 6))
 Phylo.draw(tree, do_show=False)
 plt.savefig("tree_labeled.png", dpi=300)
